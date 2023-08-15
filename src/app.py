@@ -37,13 +37,12 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # GETTING SINGLE MEMBER BY ID
-@app.route('/members/<int:id>', methods=['GET'])
-def single_member(id):
-    member = jackson_family.get_member(id) 
-    response_body = {
-        "member": member
-    }
-    return jsonify(response_body), 200
+@app.route('/members/<int:member_id>', methods=['GET'])
+def get_single_member(member_id):
+    single_member = FamilyStructure.get_member(member_id)
+    if single_member is None:
+        raise APIException(f"Member with ID {member_id} not found.", status_code=400)
+    return jsonify(single_member)
 
 
 # ADD NEW MEMBER
@@ -52,12 +51,11 @@ def add_member():
     body = request.get_json()
     new_member = {
         "first_name" : body.get("first_name"),
+        "last_name" : "Jackson",
         "id" : body.get("id"),
         "age" : body.get("age"),
         "lucky_numbers" : body.get("lucky_numbers")
     }
-    if body is None:
-        raise APIException("Must give member's information (in body)", status_code=400)
     all_members = jackson_family.add_member(new_member)
     return jsonify(all_members), 200
 
