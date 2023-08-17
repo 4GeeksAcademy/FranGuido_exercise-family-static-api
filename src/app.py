@@ -31,10 +31,7 @@ def handle_hello():
 
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
-    response_body = {
-        "Jackson Family": members
-    }
-    return jsonify(response_body), 200
+    return jsonify(members), 200
 
 # GETTING SINGLE MEMBER BY ID
 @app.route('/members/<int:id>', methods=['GET'])
