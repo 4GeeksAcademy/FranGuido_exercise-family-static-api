@@ -47,19 +47,24 @@ def get_single_member(id):
 @app.route('/members', methods=['POST'])
 def add_member():
     body = request.get_json()
-    new_member = {
-        "first_name" : body.get("first_name"),
-        "last_name" : "Jackson",
-        "id" : body.get("id"),
-        "age" : body.get("age"),
-        "lucky_numbers" : body.get("lucky_numbers")
-    }
+    
     if "first_name" not in body:
         raise APIException(f"Must provide a name.", status_code=400)
     if "age" not in body:
         raise APIException(f"Must provide an age.", status_code=400)
+    id = jackson_family._generateId()
+    if "id" in body:
+        id = body['id']
+    new_member = {
+        "id" : id,
+        "first_name" : body.get("first_name"),
+        "last_name" : jackson_family.last_name,
+        "age" : body.get("age"),
+        "lucky_numbers" : body.get("lucky_numbers")
+    }
+
     all_members = jackson_family.add_member(new_member)
-    return jsonify(all_members), 200
+    return jsonify({"done": True}), 200
 
 # DELETE MEMBER
 @app.route('/members/<int:id>', methods=['DELETE'])
