@@ -34,7 +34,7 @@ def handle_hello():
     return jsonify(members), 200
 
 # GETTING SINGLE MEMBER BY ID
-@app.route('/members/<int:id>', methods=['GET'])
+@app.route('/member/<int:id>', methods=['GET'])
 def get_single_member(id):
     single_member = jackson_family.get_member(id)
     response_body ={
@@ -44,7 +44,7 @@ def get_single_member(id):
 
 
 # ADD NEW MEMBER
-@app.route('/members', methods=['POST'])
+@app.route('/member', methods=['POST'])
 def add_member():
     body = request.get_json()
     
@@ -55,6 +55,7 @@ def add_member():
     id = jackson_family._generateId()
     if "id" in body:
         id = body['id']
+
     new_member = {
         "id" : id,
         "first_name" : body.get("first_name"),
@@ -67,7 +68,7 @@ def add_member():
     return jsonify({"done": True}), 200
 
 # DELETE MEMBER
-@app.route('/members/<int:id>', methods=['DELETE'])
+@app.route('/member/<int:id>', methods=['DELETE'])
 def delete_member(id):
     jackson_family.delete_member(id)
     return jsonify({"done": True}), 200
