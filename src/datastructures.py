@@ -57,7 +57,7 @@ class FamilyStructure:
     def get_member(self, id):
         # fill this method and update the return
         for member in self._members:
-            if id == member.get(id):
+            if id == member.get("id"):
                 return member
 
     # this method is done, it returns a list with all the family members
